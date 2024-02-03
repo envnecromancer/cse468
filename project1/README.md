@@ -1,7 +1,7 @@
 ClientVM:
 file 01-netcfg.yaml belongs in /etc/netplan/01-netcfg.yaml
 
-#ServerVM:
+ServerVM:
 file 01-netcfg.yaml belongs in /etc/netplan/01-netcfg.yaml
 
 GatewayVM:
