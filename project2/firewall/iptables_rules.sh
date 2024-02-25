@@ -1,4 +1,3 @@
-# ensure this file has chmod +x iptables_rules.sh ran so that it actually updates the iptables
 sudo iptables -F
 sudo iptables -X
 sudo iptables -x nat -F
@@ -60,4 +59,30 @@ sudo iptables -A INPUT -p tcp --dport 443 -j ACCEPT
 # allow for inbound and outbound udp
 sudo iptables -A INPUT -p udp -m udp --dport 53 -j ACCEPT
 sudo iptables -A INPUT -p udp -m udp --sport 53 -j ACCEPT
+sudo iptables -A OUTPUT -p udp -m udp --sport 53 -j ACCEPT
+sudo iptables -A OUTPUT -p udp -m udp --dport 53 -j ACCEPT
+sudo iptables -A FORWARD -p udp -m udp --dport 53 -j ACCEPT
+sudo iptables -A FORWARD -p udp -m udp --sport 53 -j ACCEPT
+
+# allow outgoing traffic from client and server to the internet 
+sudo iptables -A FORWARD -s 192.168.0.10 -o enp0s9 -j ACCEPT
+sudo iptables -A FORWARD -s 10.0.0.10 -o enp0s9 -j ACCEPT
+# allow outgoing traffic from gateway to the internet
+sudo iptables -A OUTPUT -o enp0s9 -j ACCEPT
+sudo iptables -A FORWARD -o enp0s9 -j ACCEPT
+
+# allow outbound traffic from client to the internet
+sudo iptables -A FORWARD -i enp0s3 -o enp0s9 -m state --state ESTABLISHED,RELATED -j ACCEPT
+sudo iptables -A FORWARD -i enp0s9 -o enp0s3 -m state --state NEW,ESTABLISHED,RELATED -j ACCEPT
+
+# allow outbound traffic from server to the internet
+sudo iptables -A FORWARD -i enp0s8 -o enp0s9 -m state --state ESTABLISHED,RELATED -j ACCEPT
+sudo iptables -A FORWARD -i enp0s9 -o enp0s8 -m state --state NEW,ESTABLISHED,RELATED -j ACCEPT
+
+
+
+
+
+
+
 
