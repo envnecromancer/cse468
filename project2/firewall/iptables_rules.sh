@@ -37,6 +37,11 @@ sudo iptables -A FORWARD -p tcp --sport 22 -j ACCEPT
 # allow for pings between server and client
 iptables -A FORWARD -p icmp -d 10.0.0.10 -j ACCEPT
 iptables -A FORWARD -p icmp -d 192.168.0.10 -j ACCEPT
+# allow for pings from server and client to gateway
+sudo iptables -A INPUT -p icmp -s 192.168.0.10 -j ACCEPT
+sudo iptables -A OUTPUT -p icmp -d 192.168.0.10 -j ACCEPT
+sudo iptables -A INPUT -p icmp -s 10.0.0.10 -j ACCEPT
+sudo iptables -A OUTPUT -p icmp -d 10.0.0.10 -j ACCEPT
 
 # allow for 8.8.8.8 pings
 iptables -A FORWARD -p icmp -d 8.8.8.8 -j ACCEPT
