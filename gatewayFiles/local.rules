@@ -1,0 +1,34 @@
+# $Id: local.rules,v 1.11 2004/07/23 20:15:44 bmc Exp $
+# ----------------
+# LOCAL RULES
+# ----------------
+# This file intentionally does not come with signatures.  Put your local
+# additions here.
+
+#Task 4.1 Detect Land Attack
+alert tcp any any -> 10.0.0.10 80 (msg:"Possible LAND attack detected"; flags:S; sameip; sid:1000001; priority:1;)
+
+#Task 4.2 Detect SYN Flooding Attack
+alert tcp any any -> 10.0.0.10 any (flags:S; msg:"Possible SYN flood attack detected"; detection_filter:track by_dst, count 20, seconds 60; sid:1000002; priority:2;)
+
+#Task 4.3 Detect Smurf Attack
+alert icmp any any -> 10.255.255.255 any (msg:"Possible smurf attack detected"; sid:1000003; priority:3;)
+
+#Task 4.4 Detect UDP Flood Attack
+alert udp any any -> $HOME_NET any (msg:"Possible UDP flood attack detected"; detection_filter:track by_dst, count 10, seconds 60; sid:1000004; priority:4;)
+
+#Task 4.5 Detect Various Port Scans
+#a.) Detect ACK Scan
+alert tcp any any -> $HOME_NET any (flags:A; msg:"Possible intrusion ACK Scan In Progress"; sid:1000005; priority:5;)
+
+#b.) Detect FIN Scan
+alert tcp any any -> $HOME_NET any (flags:F; msg:"Possible intrusion FIN Scan In Progress"; sid:1000006; priority:6;)
+
+#c.) Detect Xmas Scan
+alert tcp any any -> $HOME_NET any (flags:UPF; msg:"Possible intrusion XMAS Scan In Progress"; sid:1000007; priority:7; detection_filter:track by_dst, count 20, seconds 60;)
+
+#d.) Detect Null Scan
+alert tcp any any -> $HOME_NET any (flags:0; msg:"Possible intrusion NULL Scan In Progress"; sid:1000008; priority:8; detection_filter:track by_dst, count 20, seconds 60;)
+
+#e.) Detect UDP Scan
+alert udp any any -> $HOME_NET any (msg:"Possible intrusion UDP Scan In Progress"; sid:1000009; priority:9; detection_filter:track by_dst, count 20, seconds 60;)
