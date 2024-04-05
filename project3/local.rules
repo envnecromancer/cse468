@@ -31,4 +31,4 @@ alert tcp any any -> $HOME_NET any (flags:UPF; msg:"Possible intrusion XMAS Scan
 alert tcp any any -> $HOME_NET any (flags:0; msg:"Possible intrusion NULL Scan In Progress"; sid:1000008; priority:8; detection_filter:track by_dst, count 20, seconds 60;)
 
 #e.) Detect UDP Scan
-alert udp any any -> $HOME_NET any (msg:"Possible intrusion UDP Scan In Progress"; sid:1000009; priority:9; detection_filter:track by_dst, count 20, seconds 60;)
+alert udp any any -> $HOME_NET any (msg:"Possible intrusion UDP Scan In Progress"; sid:1000009; priority:9;)
